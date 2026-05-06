@@ -1,2 +1,2 @@
-fast-flights
+fast-flights==0.1.6
 pandas

@@ -20,6 +20,7 @@ filter = create_filter(
     ],
     trip="one-way",
     passengers=Passengers(adults=1),
+    seat="economy"
 )
 
 result = get_flights(filter)
