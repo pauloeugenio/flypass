@@ -3,8 +3,8 @@ from datetime import datetime
 import csv
 import os
 
-ORIGIN = "PAR"
-DESTINATION = "ROM"
+ORIGIN = "ORY"
+DESTINATION = "NAT"
 DATE = "2026-08-15"
 DATA_FILE = "data/prices.csv"
 
@@ -18,8 +18,8 @@ query = create_query(
             to_airport=DESTINATION
         )
     ],
-    trip="one-way",
     seat="economy",
+    trip="one-way",
     passengers=Passengers(adults=1),
     language="en-US"
 )
@@ -37,32 +37,29 @@ with open(DATA_FILE, "a", newline="", encoding="utf-8") as f:
             "origin",
             "destination",
             "date",
-            "current_price",
             "price",
             "airline",
             "duration"
         ])
 
-    if not result.flights:
+    if not result:
         writer.writerow([
             datetime.now().isoformat(),
             ORIGIN,
             DESTINATION,
             DATE,
-            result.current_price,
             "NO_RESULT",
             "",
             ""
         ])
     else:
-        for flight in result.flights:
+        for flight in result:
             writer.writerow([
                 datetime.now().isoformat(),
                 ORIGIN,
                 DESTINATION,
                 DATE,
-                result.current_price,
-                flight.price,
-                flight.name,
-                flight.duration
+                getattr(flight, "price", ""),
+                getattr(flight, "name", ""),
+                getattr(flight, "duration", "")
             ])
