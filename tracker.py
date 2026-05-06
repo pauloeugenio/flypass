@@ -3,8 +3,8 @@ from datetime import datetime
 import csv
 import os
 
-ORIGIN = "PAR"
-DESTINATION = "ROM"
+ORIGIN = "ORY"
+DESTINATION = "NAT"
 DATE = "2026-08-15"
 DATA_FILE = "data/prices.csv"
 
@@ -23,7 +23,7 @@ filter = create_filter(
     seat="economy"
 )
 
-result = get_flights(filter)
+result = get_flights(filter=filter)
 
 exists = os.path.exists(DATA_FILE)
 
