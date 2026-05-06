@@ -1,2 +1,2 @@
-fast-flights==2.2
+fast-flights==3.0rc0
 pandas

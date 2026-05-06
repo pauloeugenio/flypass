@@ -1,29 +1,30 @@
-from fast_flights import FlightData, Passengers, create_filter, get_flights
+from fast_flights import FlightQuery, Passengers, create_query, get_flights
 from datetime import datetime
 import csv
 import os
 
-ORIGIN = "ORY"
-DESTINATION = "NAT"
+ORIGIN = "PAR"
+DESTINATION = "ROM"
 DATE = "2026-08-15"
 DATA_FILE = "data/prices.csv"
 
 os.makedirs("data", exist_ok=True)
 
-filter = create_filter(
-    flight_data=[
-        FlightData(
+query = create_query(
+    flights=[
+        FlightQuery(
             date=DATE,
             from_airport=ORIGIN,
             to_airport=DESTINATION
         )
     ],
     trip="one-way",
+    seat="economy",
     passengers=Passengers(adults=1),
-    seat="economy"
+    language="en-US"
 )
 
-result = get_flights(filter=filter)
+result = get_flights(query)
 
 exists = os.path.exists(DATA_FILE)
 
@@ -36,18 +37,32 @@ with open(DATA_FILE, "a", newline="", encoding="utf-8") as f:
             "origin",
             "destination",
             "date",
+            "current_price",
             "price",
             "airline",
             "duration"
         ])
 
-    for flight in result.flights:
+    if not result.flights:
         writer.writerow([
             datetime.now().isoformat(),
             ORIGIN,
             DESTINATION,
             DATE,
-            flight.price,
-            flight.name,
-            flight.duration
+            result.current_price,
+            "NO_RESULT",
+            "",
+            ""
         ])
+    else:
+        for flight in result.flights:
+            writer.writerow([
+                datetime.now().isoformat(),
+                ORIGIN,
+                DESTINATION,
+                DATE,
+                result.current_price,
+                flight.price,
+                flight.name,
+                flight.duration
+            ])
