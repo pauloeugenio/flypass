@@ -1,0 +1,31 @@
+name: Flight Price Tracker
+
+on:
+  schedule:
+    - cron: "0 8,20 * * *" #Para 3 vezes no dia so trocar para 0 8,14,20 * * *
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t flight-tracker .
+
+      - name: Run tracker
+        run: docker run --rm -v ${{ github.workspace }}/data:/app/data flight-tracker
+
+      - name: Commit results
+        run: |
+          git config user.name "flight-tracker-bot"
+          git config user.email "flight-tracker-bot@users.noreply.github.com"
+          git add data/prices.csv
+          git diff --cached --quiet || git commit -m "Update flight prices"
+          git push
