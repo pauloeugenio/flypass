@@ -2,7 +2,7 @@ name: Flight Price Tracker
 
 on:
   schedule:
-    - cron: "0 8,20 * * *" #Para 3 vezes no dia so trocar para 0 8,14,20 * * *
+    - cron: "0 6,12,18,0 * * *" #Para 3 vezes no dia so trocar para 0 8,14,20 * * *
   workflow_dispatch:
 
 permissions:

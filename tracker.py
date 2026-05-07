@@ -5,7 +5,7 @@ import os
 
 ORIGIN = "ORY"
 DESTINATION = "NAT"
-DATE = "2026-08-15"
+DATE = "2026-09-18"
 DATA_FILE = "data/prices.csv"
 
 os.makedirs("data", exist_ok=True)
